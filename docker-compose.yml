@@ -1,0 +1,25 @@
+version: '3.4'
+name: ioc-manager
+services:
+  backend:
+    build: https://github.com/bcampru/ioc-manager-backend.git#master
+    ports:
+      - "5000:5000"
+    environment:
+      - client_id=${client_id}
+      - client_secret=${client_secret}
+      - logo=${logo}
+      - misp_secret=${misp_secret}
+      - misp_url=${misp_url}
+    volumes:
+      - logs:/app/app/logs
+  frontend:
+    build: 
+      context: https://github.com/bcampru/ioc-manager-frontend.git#new_dockerfile
+      args:
+        - REACT_APP_API_URL=${REACT_APP_API_URL}
+    ports:
+      - "80:3000"
+  
+volumes:
+  logs:
